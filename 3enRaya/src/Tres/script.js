@@ -1,134 +1,88 @@
-$(window).on('load', function(){
+$(document).ready(function () {
+    let turno = 1; // 1 = Jugador 1 (X), 2 = Jugador 2 (O)
+    let terminado = false;
 
-    $('td').hover(function () {
-            $(this).css("background-color", "lightblue")
-            
-        }, function () {
-            $(this).css("background-color", "white")
+    function getSimbolo(turno) {
+        return turno === 1
+            ? `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg>`;
+    }
+
+    function getTablero() {
+        let tablero = [];
+        $("td.eachCell").each(function () {
+            let contenido = $(this).find("p").html();
+            if (contenido && contenido.includes("icon-tabler-x")) tablero.push("X");
+            else if (contenido && contenido.includes("icon-tabler-circle")) tablero.push("O");
+            else tablero.push("");
+        });
+        return tablero;
+    }
+
+    function hayGanador(tablero) {
+        const lineas = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // filas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columnas
+            [0, 4, 8], [2, 4, 6]             // diagonales
+        ];
+        for (let linea of lineas) {
+            const [a, b, c] = linea;
+            if (tablero[a] && tablero[a] === tablero[b] && tablero[a] === tablero[c]) {
+                return tablero[a];
+            }
         }
-    );
-    $('td').click(async function(){
-        
+        return null;
+    }
 
+    function tableroLleno(tablero) {
+        return tablero.every(cell => cell !== "");
+    }
 
-        function delay(n){
-            return new Promise(function(resolve){
-                setTimeout(resolve,n*1000);
+    function reiniciar() {
+        window.location.reload();
+    }
+
+    $("td.eachCell").click(function () {
+        $(this).find("p").css('padding', '0px');
+        if (terminado) return;
+        let celda = $(this).find("p");
+        if (celda.html() !== "") return;
+
+        celda.html(getSimbolo(turno));
+        let tablero = getTablero();
+        let ganador = hayGanador(tablero);
+
+        if (ganador) {
+            terminado = true;
+            $.alert({
+                title: '¡Fin del juego!',
+                content: `Ganó el jugador ${ganador === "X" ? "1" : "2"} (${ganador})`,
+                buttons: {
+                    reiniciar: {
+                        text: 'Reiniciar',
+                        action: function () {
+                            reiniciar();
+                        }
+                    }
+                }
             });
-        }
-
-        
-        var valueCell = $(this).children('p')
-        function reset(){
-            $('.eachX').text(" ")
-        }
-        
-        var turnGame = $('#playerTurn')[0].innerHTML
-
-
-       
-
-        var linea1 = new Array($('.line1'))
-        var linea2 = new Array($('.line2'))
-        var linea3 = new Array($('.line3'))
-         
-        var colum1 = new Array($('.colum1'))
-        var colum2 = new Array($('.colum2'))
-        var colum3 = new Array($('.colum3'))
-
-        if(turnGame == 1){
-            valueCell.text("X")
-            $('#playerTurn')[0].innerHTML = "2"
-        }
-        else{
-            valueCell.text(0)
-            $('#playerTurn')[0].innerHTML = "1"
-        }
-
-        // Comprobar el empate recorriendo todas las celdas
-        for(let x = 0; x < $('.eachX').length; x++){
-            var values =+ new Array($('.eachX')[x].outerText)
-
-        }
-        
-        if(isNaN(values)){
-            await delay(0.2)
+        } else if (tableroLleno(tablero)) {
+            terminado = true;
             $.alert({
                 title: 'Empate',
-                content: 'Partida terminada en empate',
+                content: '¡No hay ganador!',
                 buttons: {
-                    confirm: function () {
-                        $.alert('Confirmed!');
-                    },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    },
-                    somethingElse: {
-                        text: 'Something else',
-                        btnClass: 'btn-blue',
-                        keys: ['enter', 'shift'],
-                        action: function(){
-                            $.alert('Something else?');
+                    reiniciar: {
+                        text: 'Reiniciar',
+                        action: function () {
+                            reiniciar();
                         }
-                    },
+                    }
+                }
             });
-            reset()
+        } else {
+            turno = turno === 1 ? 2 : 1;
+            $("#playerTurn").text(turno);
         }
-
-
-        // Lineas
-        if ((linea1[0][0].outerText) == "0" && (linea1[0][1].outerText) == "0" && (linea1[0][2].outerText) == "0" || (linea1[0][0].outerText) == "X" && (linea1[0][1].outerText) == "X" && (linea1[0][2].outerText) == "X"){
-            await delay(0.2)
-            alert("Has ganado")
-            reset()
-        
-            
-        }
-        else if((linea2[0][0].outerText) == "0" && (linea2[0][1].outerText) == "0" && (linea2[0][2].outerText) == "0" || (linea2[0][0].outerText) == "X" && (linea2[0][1].outerText) == "X" && (linea2[0][2].outerText) == "X"){
-            await delay(0.2)
-            alert("Has ganado")
-            reset()
-            
-
-        }
-        else if((linea3[0][0].outerText) == "0" && (linea3[0][1].outerText) == "0" && (linea3[0][2].outerText) == "0" || (linea3[0][0].outerText) == "X" && (linea3[0][1].outerText) == "X" && (linea3[0][2].outerText) == "X"){
-            await delay(0.2)
-            alert("Has ganado")
-            reset()
-            
-
-        } 
-
-        // Columnas
-
-        if ((colum1[0][0].outerText) == "0" && (colum1[0][1].outerText) == "0" && (colum1[0][2].outerText) == "0" || (colum1[0][0].outerText) == "X" && (colum1[0][1].outerText) == "X" && (colum1[0][2].outerText) == "X"){
-            await delay(0.2)
-
-            alert("Has ganado")
-            reset()
-            
-            
-        }
-        else if((colum2[0][0].outerText) == "0" && (colum2[0][1].outerText) == "0" && (colum2[0][2].outerText) == "0" || (colum2[0][0].outerText) == "X" && (colum2[0][1].outerText) == "X" && (colum2[0][2].outerText) == "X"){
-            await delay(0.2)
-            alert("Has ganado")
-            reset()
-            
-
-        }
-        else if((colum3[0][0].outerText) == "0" && (colum3[0][1].outerText) == "0" && (colum3[0][2].outerText) == "0" || (colum3[0][0].outerText) == "X" && (colum3[0][1].outerText) == "X" && (colum3[0][2].outerText) == "X"){
-            await delay(0.2)
-            alert("Has ganado")
-            reset()
-            
-
-        } 
-
-
-
-
-    })
-
-    
-
-})
+    });
+});

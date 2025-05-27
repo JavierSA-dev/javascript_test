@@ -22,42 +22,45 @@
             <h1 class="display-5"> <p class="text-center"> TRES EN RAYA</p></h1>
 
                 <tr>
-                    <td class="line1 colum1 eachCell noBorderLeft noBorderTop"><p class="text-center eachX  "> </p></td>
-                    <td class="line1 colum2 eachCell noBorderTop"><p class="text-center eachX"> </p></td>
-                    <td class="line1 colum3 eachCell noBorderRight noBorderTop"><p class="text-center eachX "> </p></td>
+                    <td class="line1 colum1 eachCell noBorderLeft noBorderTop"><p class="text-center  "></p></td>
+                    <td class="line1 colum2 eachCell noBorderTop"><p class="text-center"></p></td>
+                    <td class="line1 colum3 eachCell noBorderRight noBorderTop"><p class="text-center "></p></td>
                 </tr>
                 <tr>
-                    <td class="line2 colum1 eachCell noBorderLeft"><p class="text-center eachX "> </p></td>
-                    <td class="line2 colum2 eachCell"><p class="text-center eachX"> </p></td>
-                    <td class="line2 colum3 eachCell noBorderRight"><p class="text-center eachX "> </p></td>
+                    <td class="line2 colum1 eachCell noBorderLeft"><p class="text-center "></p></td>
+                    <td class="line2 colum2 eachCell"><p class="text-center"></p></td>
+                    <td class="line2 colum3 eachCell noBorderRight"><p class="text-center "></p></td>
                 </tr>
                 <tr>
-                    <td class="line3 colum1 eachCell noBorderLeft noBorderBottom"> <p class="text-center eachX  "> </p></td>
-                    <td class="line3 colum2 eachCell noBorderBottom"> <p class="text-center eachX "> </p></td>
-                    <td class="line3 colum3 eachCell noBorderBottom noBorderRight" ><p class="text-center eachX  "> </p></td>
+                    <td class="line3 colum1 eachCell noBorderLeft noBorderBottom"> <p class="text-center  "></p></td>
+                    <td class="line3 colum2 eachCell noBorderBottom"> <p class="text-center "></p></td>
+                    <td class="line3 colum3 eachCell noBorderBottom noBorderRight" ><p class="text-center  "></p></td>
                 </tr>
             </table> 
         </div>
 
     </div>
    
-    <div id="boxPlayerTurn" class="box-player">
-        <p class="text-player">
-            Le toca al jugador <span id="playerTurn">1</span> 
-        </p>
-    </div>
+    <div class="d-flex justify-content-center mt-5" style="gap: 10px">
+        <div id="player1" class="box-player">
+            <p class="text-player">
+                Jugador 1 <span id="iconPlayer1"> <svg  xmlns="http://www.w3.org/2000/svg"  width="22"  height="22"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></span>
+            </p>
+        </div>
+        <div id="boxPlayerTurn" class="box-player">
+            <p class="text-player">
+                Le toca al jugador <span id="playerTurn">1</span> 
+            </p>
+        </div>
+    
+        <div id="player2" class="box-player">
+            <p class="text-player">
+                Jugador 2 <span id="iconPlayer2"> <svg  xmlns="http://www.w3.org/2000/svg"  width="22"  height="22"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg></span>
+            </p>
+        </div>
 
-    <div id="player1" class="box-player">
-        <p class="text-player">
-            P1 (X)
-        </p>
     </div>
-
-    <div id="player2" class="box-player">
-        <p class="text-player">
-            P2 (0)
-        </p>
-    </div>
+    
 
 </body>
 </html>
